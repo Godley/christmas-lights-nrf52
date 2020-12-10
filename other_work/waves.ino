@@ -15,30 +15,14 @@
 //#error "Requires FastLED 3.1 or later; check github for latest code."
 //#endif
 
-#define DATA_PIN   13
-#define LED_TYPE    WS2812B
-#define COLOR_ORDER GRB
-#define NUM_LEDS    31       // Change this to reflect the number of LEDs you have
-#define BRIGHTNESS  80      // Set Brightness here
 
-CRGB leds[NUM_LEDS];
 
 // ten seconds per color palette makes a good demo
 // 20-120 is better for deployment
 #define SECONDS_PER_PALETTE 20
 
 
-void setupLEDs() {
-  delay(3000); // 3 second delay for recovery
-  
-  // tell FastLED about the LED strip configuration
-  FastLED.addLeds<LED_TYPE,DATA_PIN, COLOR_ORDER>(leds, NUM_LEDS)
-    .setCorrection(TypicalLEDStrip) // cpt-city palettes have different color balance
-    .setDither(BRIGHTNESS < 255);
 
-  // set master brightness control
-  FastLED.setBrightness(BRIGHTNESS);
-}
 
 // Forward declarations of an array of cpt-city gradient palettes, and 
 // a count of how many there are.  The actual color palette definitions

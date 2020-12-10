@@ -28,6 +28,43 @@ void    printHex   (const uint8_t * data, const uint32_t numBytes);
 // Packet buffer
 extern uint8_t packetbuffer[];
 
+#include "FastLED.h"
+
+#define DATA_PIN   13
+#define LED_TYPE    WS2812B
+#define COLOR_ORDER GRB
+#define NUM_LEDS    31       // Change this to reflect the number of LEDs you have
+#define BRIGHTNESS  80      // Set Brightness here
+
+CRGB leds[NUM_LEDS];
+
+void setupLEDs() {
+  delay(3000); // 3 second delay for recovery
+  
+  // tell FastLED about the LED strip configuration
+  FastLED.addLeds<LED_TYPE,DATA_PIN, COLOR_ORDER>(leds, NUM_LEDS)
+    .setCorrection(TypicalLEDStrip) // cpt-city palettes have different color balance
+    .setDither(BRIGHTNESS < 255);
+
+  // set master brightness control
+  FastLED.setBrightness(BRIGHTNESS);
+}
+
+
+void chaser(uint8_t red, uint8_t green, uint8_t blue) {
+  Serial.println("here");
+    for(int i = 0; i < NUM_LEDS; i++) {
+        leds[i] = CRGB(red, green, blue);
+        FastLED.show();
+        FastLED.delay(20);
+    }
+    for(int i = 0; i < NUM_LEDS; i++) {
+        leds[i] = CRGB::Black;
+        FastLED.show();
+        FastLED.delay(20);
+    }
+}
+
 void setup(void)
 {
   setupLEDs();
@@ -109,6 +146,7 @@ void loop(void)
     Serial.print(green, HEX);
     if (blue < 0x10) Serial.print("0");
     Serial.println(blue, HEX);
+    chaser(red, green, blue);
   }
 
   // Buttons
