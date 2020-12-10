@@ -28,7 +28,7 @@ CRGB leds[NUM_LEDS];
 #define SECONDS_PER_PALETTE 20
 
 
-void setup() {
+void setupLEDs() {
   delay(3000); // 3 second delay for recovery
   
   // tell FastLED about the LED strip configuration
@@ -656,7 +656,7 @@ const uint8_t gGradientPaletteCount =
 
 
 
-  void loop()
+  void wavesLoop()
 {
   EVERY_N_SECONDS( SECONDS_PER_PALETTE ) {
     gCurrentPaletteNumber = addmod8( gCurrentPaletteNumber, 1, gGradientPaletteCount);
